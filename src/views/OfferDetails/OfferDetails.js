@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -16,6 +16,10 @@ function OfferDetail({ offersById }) {
   const history = useHistory();
   const { offerId } = useParams();
   const selectedOffer = offersById[offerId];
+  const selectedOfferKeys = useMemo(
+    () => Object.keys(selectedOffer || {}).filter(key => key !== 'ref'),
+    [selectedOffer]
+  );
 
   useEffect(() => {
     if (!selectedOffer) history.push('/');
@@ -32,7 +36,7 @@ function OfferDetail({ offersById }) {
       </h1>
       <Card>
         <CardContent>
-          {Object.keys(selectedOffer).map(key => (
+          {selectedOfferKeys.map(key => (
             <div key={key}>
               <strong className="OfferDetail__label">{getFormattedLabel(key)}: </strong>
               {selectedOffer[key]}

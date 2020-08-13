@@ -1,8 +1,10 @@
+import { createRef } from 'react';
 import { GET_OFFER_LIST, SET_OFFER_TO_SCROLL } from './constants';
 
 const initialState = {
   offersFetching: false,
   offers: [],
+  offersById: {},
   offerToScroll: null,
 };
 
@@ -12,7 +14,9 @@ const reducer = (state = initialState, action = {}) => {
       return { ...state, offersFetching: true };
     case `${GET_OFFER_LIST}_FULFILLED`: {
       // filtering by published status should be managed by getOffer request param
-      const publishedOffers = action.payload.filter(({ status }) => status === 'published');
+      const publishedOffers = action.payload
+        .filter(({ status }) => status === 'published')
+        .map(offer => ({ ...offer, ref: createRef() }));
       return {
         ...state,
         offersFetching: false,
