@@ -1,0 +1,2 @@
+export const GET_OFFER_LIST = 'GET_OFFER_LIST';
+export const SET_OFFER_TO_SCROLL = 'SET_OFFER_TO_SCROLL';
